@@ -87,7 +87,6 @@ export function DashboardPage() {
     contributingFactors,
   } = healthData
 
-  // Calculate simulated risk
   const simulatedRisk = Math.max(10, riskScore - activityBoost * 1.75)
 
   const radarData = [
@@ -161,8 +160,8 @@ export function DashboardPage() {
                 </RadialBarChart>
               </ResponsiveContainer>
               <div className="score-ring-value">
-                <span className="text-3xl font-bold gradient-primary-text">{wellnessScore}</span>
-                <span className="text-[10px] text-text-dim">/ 100</span>
+                <span className="text-3xl font-bold gradient-primary-text leading-none">{wellnessScore}</span>
+                <span className="text-[10px] text-text-dim leading-tight">/ 100</span>
               </div>
             </div>
           </motion.div>
@@ -203,8 +202,8 @@ export function DashboardPage() {
                 </RadialBarChart>
               </ResponsiveContainer>
               <div className="score-ring-value">
-                <span className="text-3xl font-bold text-warning">{riskScore}</span>
-                <span className={`text-[10px] font-semibold ${
+                <span className="text-3xl font-bold text-warning leading-none">{riskScore}</span>
+                <span className={`text-[10px] font-semibold leading-tight ${
                   riskLevel === 'Low' ? 'text-success' : riskLevel === 'Moderate' ? 'text-warning' : 'text-danger'
                 }`}>
                   {riskLevel}
@@ -216,7 +215,6 @@ export function DashboardPage() {
 
         {/* Charts Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-          {/* Risk Radar Chart */}
           <motion.div
             initial="hidden"
             animate="visible"
@@ -248,7 +246,6 @@ export function DashboardPage() {
             </div>
           </motion.div>
 
-          {/* BMI Trends */}
           <motion.div
             initial="hidden"
             animate="visible"
@@ -298,7 +295,7 @@ export function DashboardPage() {
         </div>
 
         {/* Sleep & Activity */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -306,22 +303,22 @@ export function DashboardPage() {
             custom={4}
             className="dashboard-card"
           >
-            <h3 className="text-xs font-semibold text-text-muted mb-3 flex items-center gap-1.5">
-              <Moon size={12} className="text-secondary-light" /> Sleep
+            <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
+              <Moon size={16} className="text-secondary-light" /> Sleep
             </h3>
-            <div className="h-[120px]">
+            <div className="h-[220px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={sleepData}>
-                  <XAxis dataKey="day" tick={{ fill: '#64748B', fontSize: 9 }} axisLine={false} />
+                  <XAxis dataKey="day" tick={{ fill: '#64748B', fontSize: 11 }} axisLine={false} />
                   <Tooltip
                     contentStyle={{
                       background: '#1A1A2E',
                       border: '1px solid rgba(255,255,255,0.1)',
-                      borderRadius: '10px',
-                      fontSize: '11px',
+                      borderRadius: '12px',
+                      fontSize: '12px',
                     }}
                   />
-                  <Bar dataKey="hours" fill="#9333EA" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="hours" fill="#9333EA" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -334,29 +331,29 @@ export function DashboardPage() {
             custom={5}
             className="dashboard-card"
           >
-            <h3 className="text-xs font-semibold text-text-muted mb-3 flex items-center gap-1.5">
-              <Footprints size={12} className="text-accent" /> Activity
+            <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
+              <Footprints size={16} className="text-accent" /> Activity
             </h3>
-            <div className="h-[120px]">
+            <div className="h-[220px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={activityData}>
-                  <XAxis dataKey="day" tick={{ fill: '#64748B', fontSize: 9 }} axisLine={false} />
+                  <XAxis dataKey="day" tick={{ fill: '#64748B', fontSize: 11 }} axisLine={false} />
                   <Tooltip
                     contentStyle={{
                       background: '#1A1A2E',
                       border: '1px solid rgba(255,255,255,0.1)',
-                      borderRadius: '10px',
-                      fontSize: '11px',
+                      borderRadius: '12px',
+                      fontSize: '12px',
                     }}
                   />
-                  <Bar dataKey="steps" fill="#14B8A6" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="steps" fill="#14B8A6" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </motion.div>
         </div>
 
-        {/* Contributing Factors (Explainable AI) & Future Risk */}
+        {/* Contributing Factors & Future Risk */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
           <motion.div
             initial="hidden"
@@ -381,7 +378,6 @@ export function DashboardPage() {
             </div>
           </motion.div>
 
-          {/* Future Risk Simulation (WOW FEATURE) */}
           <motion.div
             initial="hidden"
             animate="visible"
@@ -389,67 +385,67 @@ export function DashboardPage() {
             custom={7}
             className="dashboard-card border-primary/20"
           >
-          <div className="flex items-center gap-2 mb-1">
-            <span className="badge badge-primary text-[10px]">✨ WOW Feature</span>
-          </div>
-          <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
-            🔮 Future Risk Simulation
-          </h3>
-          <p className="text-text-dim text-xs mb-5">
-            See how lifestyle changes today can reduce your future health risks
-          </p>
-
-          {/* Slider */}
-          <div className="mb-6">
-            <div className="flex justify-between text-xs text-text-muted mb-2">
-              <span>Increase daily activity by:</span>
-              <span className="font-bold text-accent">{activityBoost}%</span>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="badge badge-primary text-[10px]">✨ WOW Feature</span>
             </div>
-            <input
-              type="range"
-              min={0}
-              max={50}
-              value={activityBoost}
-              onChange={(e) => setActivityBoost(parseInt(e.target.value))}
-              className="w-full accent-primary h-2 rounded-full appearance-none cursor-pointer"
-              style={{
-                background: `linear-gradient(to right, #E11D74 ${activityBoost * 2}%, rgba(255,255,255,0.1) ${activityBoost * 2}%)`,
-              }}
-            />
-          </div>
+            <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+              🔮 Future Risk Simulation
+            </h3>
+            <p className="text-text-dim text-xs mb-5">
+              See how lifestyle changes today can reduce your future health risks
+            </p>
 
-          {/* Comparison */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="glass-card p-4 text-center">
-              <p className="text-xs text-text-dim mb-1">Current Risk</p>
-              <p className="text-2xl font-bold text-warning">{riskScore}%</p>
+            {/* Slider */}
+            <div className="mb-6">
+              <div className="flex justify-between text-xs text-text-muted mb-2">
+                <span>Increase daily activity by:</span>
+                <span className="font-bold text-accent">{activityBoost}%</span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={50}
+                value={activityBoost}
+                onChange={(e) => setActivityBoost(parseInt(e.target.value))}
+                className="w-full accent-primary h-2 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #E11D74 ${activityBoost * 2}%, rgba(255,255,255,0.1) ${activityBoost * 2}%)`,
+                }}
+              />
             </div>
-            <div className="glass-card p-4 text-center border-accent/30">
-              <p className="text-xs text-text-dim mb-1">Projected Risk</p>
-              <motion.p
-                key={simulatedRisk}
-                initial={{ scale: 1.2 }}
-                animate={{ scale: 1 }}
-                className="text-2xl font-bold text-accent"
+
+            {/* Comparison */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="glass-card p-4 text-center">
+                <p className="text-xs text-text-dim mb-1">Current Risk</p>
+                <p className="text-2xl font-bold text-warning">{riskScore}%</p>
+              </div>
+              <div className="glass-card p-4 text-center border-accent/30">
+                <p className="text-xs text-text-dim mb-1">Projected Risk</p>
+                <motion.p
+                  key={simulatedRisk}
+                  initial={{ scale: 1.2 }}
+                  animate={{ scale: 1 }}
+                  className="text-2xl font-bold text-accent"
+                >
+                  {Math.round(simulatedRisk)}%
+                </motion.p>
+              </div>
+            </div>
+
+            {activityBoost > 0 && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                className="mt-4 p-3 rounded-xl bg-accent/10 border border-accent/20"
               >
-                {Math.round(simulatedRisk)}%
-              </motion.p>
-            </div>
-          </div>
-
-          {activityBoost > 0 && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              className="mt-4 p-3 rounded-xl bg-accent/10 border border-accent/20"
-            >
-              <p className="text-xs text-accent font-medium">
-                🎯 If daily activity improves by {activityBoost}%, predicted T2D risk reduces by{' '}
-                <strong>{Math.round(riskScore - simulatedRisk)}%</strong>
-              </p>
-            </motion.div>
-          )}
-        </motion.div>
+                <p className="text-xs text-accent font-medium">
+                  🎯 If daily activity improves by {activityBoost}%, predicted T2D risk reduces by{' '}
+                  <strong>{Math.round(riskScore - simulatedRisk)}%</strong>
+                </p>
+              </motion.div>
+            )}
+          </motion.div>
         </div>
 
         {/* AI Recommendations */}
@@ -466,23 +462,18 @@ export function DashboardPage() {
           </h3>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {/* Nutrition */}
             <RecommendationCard
               icon={<Salad size={18} />}
               title="Nutrition Plan"
               color="accent"
               items={recommendations.nutrition}
             />
-
-            {/* Fitness */}
             <RecommendationCard
               icon={<Dumbbell size={18} />}
               title="Fitness Plan"
               color="primary"
               items={recommendations.fitness}
             />
-
-            {/* Emotional */}
             <RecommendationCard
               icon={<Brain size={18} />}
               title="Emotional Wellness"

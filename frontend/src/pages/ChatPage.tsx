@@ -67,9 +67,11 @@ export function ChatPage() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [chatMessages, isTyping])
 
+  const hasInitialized = useRef(false)
   // Initial welcome message
   useEffect(() => {
-    if (chatMessages.length === 0) {
+    if (chatMessages.length === 0 && !hasInitialized.current) {
+      hasInitialized.current = true
       addChatMessage({
         id: 'welcome',
         role: 'ai',
@@ -78,7 +80,7 @@ export function ChatPage() {
         agentName: 'HerChain AI',
       })
     }
-  }, [])
+  }, [addChatMessage, chatMessages.length, user?.name])
 
   const simulateAgentWorkflow = async (userMessage: string) => {
     setIsAgentProcessing(true)

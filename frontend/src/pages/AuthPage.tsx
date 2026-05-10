@@ -91,15 +91,16 @@ export function AuthPage() {
             >
               {!isLogin && (
                 <div>
-                  <label className="text-sm text-text-muted block mb-2">Full Name</label>
+                  <label className="block mb-1.5" style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>Full Name</label>
                   <div className="relative">
-                    <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
+                    <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: 'rgba(255,255,255,0.35)' }} />
                     <input
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Enter your name"
-                      className="input-field pl-11"
+                      className="input-field"
+                      style={{ paddingLeft: '38px' }}
                       required={!isLogin}
                     />
                   </div>
@@ -107,30 +108,32 @@ export function AuthPage() {
               )}
 
               <div>
-                <label className="text-sm text-text-muted block mb-2">Email</label>
+                <label className="block mb-1.5" style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>Email</label>
                 <div className="relative">
-                  <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
+                  <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: 'rgba(255,255,255,0.35)' }} />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="input-field pl-11"
+                    className="input-field"
+                    style={{ paddingLeft: '38px' }}
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-sm text-text-muted block mb-2">Password</label>
+                <label className="block mb-1.5" style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>Password</label>
                 <div className="relative">
-                  <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim" />
+                  <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: 'rgba(255,255,255,0.35)' }} />
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="input-field pl-11"
+                    className="input-field"
+                    style={{ paddingLeft: '38px' }}
                     required
                   />
                 </div>

@@ -134,15 +134,18 @@ export function OnboardingPage() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setSelectedStage(stage.id)}
-                    className={`glass-card p-5 text-center transition-all ${
+                    type="button"
+                    className={`glass-card p-5 text-center transition-all select-none cursor-pointer relative overflow-hidden ${
                       selectedStage === stage.id
-                        ? 'border-primary glow-primary'
+                        ? 'border-primary glow-primary ring-1 ring-primary/50'
                         : 'hover:border-white/20'
                     }`}
                   >
-                    <div className="text-3xl mb-2">{stage.emoji}</div>
-                    <h3 className="font-bold text-sm mb-1">{stage.title}</h3>
-                    <p className="text-text-dim text-xs">{stage.desc}</p>
+                    <div className="relative z-10 pointer-events-none">
+                      <div className="text-3xl mb-2">{stage.emoji}</div>
+                      <h3 className="font-bold text-sm mb-1">{stage.title}</h3>
+                      <p className="text-text-dim text-xs">{stage.desc}</p>
+                    </div>
                     {selectedStage === stage.id && (
                       <motion.div
                         initial={{ scale: 0 }}
@@ -244,19 +247,21 @@ export function OnboardingPage() {
           )}
 
           <button
+            type="button"
             onClick={() => {
+              console.log('Continue clicked, current step:', step);
               if (step < totalSteps - 1) {
-                setStep(step + 1)
+                setStep(s => s + 1)
               } else {
                 handleComplete()
               }
             }}
             disabled={!canProceed}
             className={`btn-primary flex items-center gap-2 ${
-              !canProceed ? 'opacity-50 cursor-not-allowed' : ''
+              !canProceed ? 'opacity-40 cursor-not-allowed grayscale-[0.5]' : 'active:scale-95'
             }`}
           >
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 pointer-events-none">
               {step === totalSteps - 1 ? 'Start AI Chat' : 'Continue'}
               <ArrowRight size={16} />
             </span>
