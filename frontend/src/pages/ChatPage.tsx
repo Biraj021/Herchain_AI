@@ -5,6 +5,7 @@ import { useHealthStore, type ChatMessage, type AgentStatus } from '@/store/useH
 import { useAuthStore } from '@/store/useAuthStore'
 import { Send, Sparkles, ChevronRight } from 'lucide-react'
 import axios from 'axios'
+import { TypewriterEffect } from '@/components/TypewriterEffect'
 
 // Simulated AI agent workflow
 const agentWorkflow = [
@@ -18,31 +19,33 @@ const agentWorkflow = [
 ]
 
 const sampleResponses: Record<string, string> = {
-  default: `Based on my analysis, here's what I've found:
+  default: `1. Overall Wellness Summary
+Your current health indicators suggest a generally stable wellness profile, though there are specific areas where preventive focus can further optimize your long-term health. We have analyzed your metabolic and cardiovascular markers to provide this personalized assessment.
 
-**🎯 Risk Assessment:**
-• Obesity Risk: Moderate (62/100)
-• GDM Risk: Low-Moderate (45/100)  
-• T2D Risk: Moderate (58/100)
+2. Main Contributing Factors
+• BMI (25.3) is slightly above the optimal range for your life stage.
+• Reported sleep duration (6.8 hrs) is below the recommended 7-9 hours for restorative health.
+• Moderate stress levels may be impacting metabolic efficiency.
 
-**🥗 Nutrition Recommendations:**
-• Increase daily water intake to 2.5L
-• Add iron-rich foods (spinach, lentils)
-• Reduce processed sugar intake
-• Include omega-3 sources (walnuts, flax)
+3. Risk Analysis
+• Obesity Risk: Moderate (based on BMI and current activity patterns)
+• GDM Risk: Low-Moderate (if pregnant, based on history/glucose)
+• Type 2 Diabetes Risk: Moderate (influenced by BMI and family history)
+• Cardiovascular Risk: Low (based on stable blood pressure and heart rate)
 
-**💪 Fitness Plan:**
-• 20-min prenatal low-impact walking daily
-• Gentle yoga stretches (15 min/day)
-• Breathing exercises before bed
+4. Personalized Recommendations
+• Gradually increase hydration to 2.5L daily to support metabolic function.
+• Focus on iron-rich, nutrient-dense foods like spinach and lentils to maintain energy levels.
 
-**🧠 Emotional Wellness:**
-• Stress patterns may influence emotional eating
-• Try 5-min morning meditation
-• Journal gratitude before sleep
+5. Preventive Lifestyle Suggestions
+• Incorporate 20 minutes of low-impact walking daily to improve insulin sensitivity.
+• Practice 5-minute morning mindfulness to better manage stress-induced cortisol.
 
-**📊 Key Insight:**
-If you increase daily activity by 20%, your predicted T2D risk could reduce by ~35%.
+6. Positive Health Observations
+• Your blood pressure and heart rate remain within healthy, stable ranges.
+
+7. Final Preventive Advice
+Small, consistent adjustments in activity and sleep can significantly reduce future health risks.
 
 *Your full report has been generated. View your dashboard for detailed charts and simulations.*`,
 }
@@ -92,13 +95,152 @@ export function ChatPage() {
       user_profile: {
         name: user?.name || 'User',
         email: user?.email || 'user@example.com',
+        
+        // BASIC MEDICAL PROFILE
+        age: user?.age,
+        height: user?.height,
+        weight: user?.weight,
+        bmi: user?.bmi,
+        blood_group: user?.blood_group,
+        heart_rate: user?.heart_rate,
+        blood_pressure: user?.blood_pressure,
+        occupation: user?.occupation,
+        marital_status: user?.marital_status,
+
+        // LIFESTYLE INFORMATION
+        activity_level: user?.activityLevel,
+        exercise_frequency: user?.exercise_frequency,
+        sleep_duration: user?.sleep_duration,
+        sleep_quality: user?.sleep_quality,
+        smoking: user?.smoking,
+        alcohol: user?.alcohol,
+        stress_level: user?.stress_level,
+        water_intake: user?.water_intake,
+        diet_type: user?.diet_type,
+        junk_food_freq: user?.junk_food_freq,
+        sugar_intake: user?.sugar_intake,
+
+        // FAMILY MEDICAL HISTORY
+        family_diabetes: user?.family_diabetes,
+        family_obesity: user?.family_obesity,
+        family_thyroid: user?.family_thyroid,
+        family_pcos: user?.family_pcos,
+        family_hypertension: user?.family_hypertension,
+        family_heart_disease: user?.family_heart_disease,
+
+        // MENSTRUAL & REPRODUCTIVE HEALTH
+        period_start_age: user?.period_start_age,
+        cycle_length: user?.cycle_length,
+        period_regularity: user?.period_regularity,
+        heavy_bleeding: user?.heavy_bleeding,
+        severe_pain: user?.severe_pain,
+        missed_periods: user?.missed_periods,
+        fertility_issues: user?.fertility_issues,
+        num_pregnancies: user?.num_pregnancies,
+        num_deliveries: user?.num_deliveries,
+        num_miscarriages: user?.num_miscarriages,
+        prev_csection: user?.prev_csection,
+        contraceptive_use: user?.contraceptive_use,
+
+        // PREGNANCY INFORMATION
+        currently_pregnant: user?.currently_pregnant,
+        pregnancy_week: user?.pregnancy_week,
+        due_date: user?.due_date,
+        first_pregnancy: user?.first_pregnancy,
+        multiple_pregnancy: user?.multiple_pregnancy,
+        ivf_pregnancy: user?.ivf_pregnancy,
+        prev_gdm: user?.prev_gdm,
+        prev_complications: user?.prev_complications,
+        fetal_movement: user?.fetal_movement,
+        swelling: user?.swelling,
+        spotting: user?.spotting,
+        abdominal_pain: user?.abdominal_pain,
+        severe_headache: user?.severe_headache,
+        fatigue: user?.fatigue,
+        nausea: user?.nausea,
+
+        // PREGNANCY LAB REPORTS
+        hemoglobin: user?.hemoglobin,
+        bp_during_preg: user?.bp_during_preg,
+        fasting_glucose: user?.fasting_glucose,
+        post_meal_glucose: user?.post_meal_glucose,
+        hba1c: user?.hba1c,
+        ogtt_result: user?.ogtt_result,
+        urine_protein: user?.urine_protein,
+        thyroid_levels: user?.thyroid_levels,
+        iron_levels: user?.iron_levels,
+
+        // POSTPARTUM INFORMATION
+        delivery_type: user?.delivery_type,
+        delivery_date: user?.delivery_date,
+        delivery_complications: user?.delivery_complications,
+        baby_weight: user?.baby_weight,
+        breastfeeding: user?.breastfeeding,
+        postpartum_bleeding: user?.postpartum_bleeding,
+        postpartum_depression: user?.postpartum_depression,
+        mood_swings: user?.mood_swings,
+        sleep_problems: user?.sleep_problems,
+        weight_retention: user?.weight_retention,
+
+        // MENOPAUSE INFORMATION
+        periods_stopped: user?.periods_stopped,
+        menopause_age: user?.menopause_age,
+        hot_flashes: user?.hot_flashes,
+        night_sweats: user?.night_sweats,
+        vaginal_dryness: user?.vaginal_dryness,
+        bone_pain: user?.bone_pain,
+        post_menopause_weight: user?.post_menopause_weight,
+
+        // OBESITY & METABOLIC HEALTH
+        waist_circ: user?.waist_circ,
+        hip_circ: user?.hip_circ,
+        whr: user?.whr,
+        emotional_eating: user?.emotional_eating,
+        binge_eating: user?.binge_eating,
+        difficulty_losing_weight: user?.difficulty_losing_weight,
+
+        // TYPE 2 DIABETES INFORMATION
+        frequent_urination: user?.frequent_urination,
+        excessive_thirst: user?.excessive_thirst,
+        slow_healing: user?.slow_healing,
+        tingling_feet: user?.tingling_feet,
+        cholesterol: user?.cholesterol,
+        triglycerides: user?.triglycerides,
+        hdl: user?.hdl,
+        ldl: user?.ldl,
+
+        // HORMONAL & METABOLIC DISORDERS
+        acne: user?.acne,
+        hair_fall: user?.hair_fall,
+        facial_hair: user?.facial_hair,
+        dark_pigmentation: user?.dark_pigmentation,
+        tsh: user?.tsh,
+        t3: user?.t3,
+        t4: user?.t4,
+        testosterone: user?.testosterone,
+        estrogen: user?.estrogen,
+        cortisol: user?.cortisol,
+        insulin_resistance_score: user?.insulin_resistance_score,
+
+        // MENTAL HEALTH INFORMATION
+        anxiety_level: user?.anxiety_level,
+        depression_symptoms: user?.depression_symptoms,
+        emotional_stability: user?.emotional_stability,
+        social_support: user?.social_support,
+        panic_attacks: user?.panic_attacks,
+        mental_fatigue: user?.mental_fatigue,
+
+        // EMERGENCY / HIGH-RISK SYMPTOMS
+        chest_pain: user?.chest_pain,
+        shortness_breath: user?.shortness_breath,
+        loss_consciousness: user?.loss_consciousness,
+        vision_loss: user?.vision_loss,
+        reduced_fetal_movement: user?.reduced_fetal_movement,
       }
     })
 
     // Run through each agent
     for (let i = 0; i < agentWorkflow.length; i++) {
-      const agent = agentWorkflow[i]
-
       // Update agent statuses
       const newStatuses: AgentStatus[] = agentWorkflow.map((a, j) => ({
         name: a.name,
@@ -107,16 +249,7 @@ export function ChatPage() {
       }))
       setAgentStatuses(newStatuses)
 
-      // Show agent activity message
-      addChatMessage({
-        id: `agent-${i}-${Date.now()}`,
-        role: 'system',
-        content: agent.response,
-        timestamp: new Date(),
-        agentName: agent.name,
-      })
-
-      await new Promise((resolve) => setTimeout(resolve, 800 + Math.random() * 600))
+      await new Promise((resolve) => setTimeout(resolve, 600 + Math.random() * 400))
     }
 
     // All agents done
@@ -148,75 +281,90 @@ export function ChatPage() {
       agentName: 'HerChain AI',
     })
 
-    // Generate sample health data
+    // Dynamic health data generation based on user profile
+    const bmi = user?.bmi || 22
+    const glucose = user?.fasting_glucose || 90
+    const age = user?.age || 25
+    
+    // Simple heuristic for wellness score
+    let wellness = 80
+    if (bmi > 25) wellness -= 5
+    if (bmi > 30) wellness -= 10
+    if (glucose > 100) wellness -= 5
+    if (user?.stress_level && user.stress_level > 7) wellness -= 10
+    if (user?.sleep_duration && user.sleep_duration < 6) wellness -= 5
+
+    // Simple heuristic for risk score
+    let risk = 15
+    if (bmi > 25) risk += 15
+    if (glucose > 100) risk += 20
+    if (user?.family_diabetes) risk += 15
+    if (age > 45) risk += 10
+
     setHealthData({
-      wellnessScore: 72,
-      riskScore: 58,
-      riskLevel: 'Moderate',
+      wellnessScore: Math.min(98, Math.max(20, wellness)),
+      riskScore: Math.min(95, Math.max(5, risk)),
+      riskLevel: risk < 30 ? 'Low' : risk < 60 ? 'Moderate' : 'High',
       bmiTrends: [
-        { week: 'W1', bmi: 24.2 },
-        { week: 'W2', bmi: 24.5 },
-        { week: 'W3', bmi: 24.8 },
-        { week: 'W4', bmi: 24.6 },
-        { week: 'W5', bmi: 25.1 },
-        { week: 'W6', bmi: 25.3 },
-        { week: 'W7', bmi: 25.0 },
-        { week: 'W8', bmi: 24.8 },
+        { week: 'W1', bmi: bmi - 0.8 },
+        { week: 'W2', bmi: bmi - 0.5 },
+        { week: 'W3', bmi: bmi - 0.2 },
+        { week: 'W4', bmi: bmi },
       ],
       sleepData: [
-        { day: 'Mon', hours: 6.5 },
-        { day: 'Tue', hours: 7 },
-        { day: 'Wed', hours: 5.5 },
-        { day: 'Thu', hours: 7.5 },
-        { day: 'Fri', hours: 6 },
-        { day: 'Sat', hours: 8 },
-        { day: 'Sun', hours: 7.5 },
+        { day: 'Mon', hours: user?.sleep_duration || 7 },
+        { day: 'Tue', hours: (user?.sleep_duration || 7) - 0.5 },
+        { day: 'Wed', hours: (user?.sleep_duration || 7) + 1 },
+        { day: 'Thu', hours: user?.sleep_duration || 7 },
+        { day: 'Fri', hours: (user?.sleep_duration || 7) - 1 },
+        { day: 'Sat', hours: (user?.sleep_duration || 7) + 1.5 },
+        { day: 'Sun', hours: user?.sleep_duration || 7 },
       ],
       activityData: [
-        { day: 'Mon', steps: 4200 },
-        { day: 'Tue', steps: 6800 },
-        { day: 'Wed', steps: 3100 },
-        { day: 'Thu', steps: 7500 },
-        { day: 'Fri', steps: 5200 },
-        { day: 'Sat', steps: 8900 },
-        { day: 'Sun', steps: 6100 },
+        { day: 'Mon', steps: 4000 },
+        { day: 'Tue', steps: 6000 },
+        { day: 'Wed', steps: 3000 },
+        { day: 'Thu', steps: 7000 },
+        { day: 'Fri', steps: 5000 },
+        { day: 'Sat', steps: 9000 },
+        { day: 'Sun', steps: 6000 },
       ],
       riskBreakdown: {
-        obesity: 62,
-        gdm: 45,
-        t2d: 58,
-        hormonal: 35,
-        cardiovascular: 28,
+        obesity: bmi > 25 ? 60 : 20,
+        gdm: user?.prev_gdm ? 70 : 30,
+        t2d: glucose > 100 ? 65 : 25,
+        hormonal: user?.acne ? 55 : 20,
+        cardiovascular: user?.blood_pressure?.includes('140') ? 60 : 25,
       },
       recommendations: {
         nutrition: [
-          'Increase daily water intake to 2.5 liters',
-          'Add iron-rich foods like spinach and lentils',
-          'Reduce processed sugar intake by 30%',
-          'Include omega-3 sources daily',
-          'Eat 5 small meals instead of 3 large ones',
+          `Adjust calorie intake for BMI of ${bmi}`,
+          glucose > 100 ? 'Monitor carbohydrate intake strictly' : 'Maintain balanced glycemic index diet',
+          'Increase fiber-rich vegetables',
+          'Monitor sodium if BP is elevated',
+          'Prioritize lean proteins',
         ],
         fitness: [
-          '20-minute prenatal low-impact walking daily',
-          'Gentle yoga stretches for 15 minutes',
-          'Pelvic floor exercises 3x per day',
-          'Light swimming 2x per week',
-          'Breathing exercises before bed',
+          '30-minute brisk walking daily',
+          'Resistance training 2x per week',
+          'Pelvic floor exercises',
+          'Morning yoga for flexibility',
+          'Interval training for metabolic health',
         ],
         emotional: [
-          'Morning meditation for 5 minutes',
-          'Gratitude journaling before sleep',
-          'Connect with support groups weekly',
-          'Practice mindful eating',
-          'Limit screen time before bed',
+          user?.anxiety_level && user.anxiety_level > 5 ? 'Consult wellness counselor for anxiety' : 'Daily 10-min meditation',
+          'Gratitude journaling',
+          'Social support check-ins',
+          'Limit stress-inducing digital media',
+          'Deep breathing exercises',
         ],
       },
       contributingFactors: [
-        'Elevated BMI (25.3) above healthy range',
-        'Low sleep quality (avg 6.8 hrs)',
-        'Below recommended daily activity',
-        'Moderate stress indicators',
-        'Family history consideration',
+        bmi > 25 ? `Elevated BMI (${bmi})` : `Healthy BMI (${bmi})`,
+        glucose > 100 ? `High fasting glucose (${glucose})` : `Normal fasting glucose (${glucose})`,
+        user?.family_diabetes ? 'Genetic predisposition (Family History)' : 'No significant family history of diabetes',
+        user?.sleep_duration && user.sleep_duration < 7 ? 'Sub-optimal sleep patterns' : 'Good restorative sleep',
+        user?.stress_level && user.stress_level > 6 ? 'High reported stress' : 'Managed stress levels',
       ],
     })
 
@@ -291,7 +439,18 @@ export function ChatPage() {
                     }`}
                   >
                     <span>{agent.icon}</span>
-                    <div className={`agent-status-dot ${agent.status}`} />
+                    <motion.div 
+                      animate={agent.status === 'active' ? { 
+                        scale: [1, 1.2, 1],
+                        opacity: [1, 0.6, 1]
+                      } : {}}
+                      transition={{ 
+                        duration: 1.5, 
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                      className={`agent-status-dot ${agent.status}`} 
+                    />
                   </motion.div>
                 ))}
               </div>
@@ -303,8 +462,8 @@ export function ChatPage() {
       {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-4">
         <div className="max-w-4xl mx-auto space-y-4">
-          {chatMessages.map((msg) => (
-            <ChatBubble key={msg.id} message={msg} />
+          {chatMessages.map((msg, index) => (
+            <ChatBubble key={msg.id} message={msg} isLatest={index === chatMessages.length - 1} />
           ))}
 
           {isTyping && (
@@ -347,17 +506,21 @@ export function ChatPage() {
   )
 }
 
-function ChatBubble({ message }: { message: ChatMessage }) {
+function ChatBubble({ message, isLatest }: { message: ChatMessage; isLatest?: boolean }) {
   if (message.role === 'system') {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex items-center gap-2 text-xs text-text-dim py-1"
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="flex items-center gap-2 text-[10px] text-text-dim py-1 px-2 rounded-lg bg-surface/30 w-fit"
       >
-        <div className="agent-status-dot active" />
-        <span className="font-medium text-primary-light">{message.agentName}</span>
-        <span>{message.content}</span>
+        <motion.div 
+          animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="agent-status-dot active bg-primary-light" 
+        />
+        <span className="font-semibold text-primary-light tracking-wide uppercase text-[9px]">{message.agentName}</span>
+        <span className="italic">{message.content}</span>
       </motion.div>
     )
   }
@@ -389,16 +552,22 @@ function ChatBubble({ message }: { message: ChatMessage }) {
             <span className="text-xs font-semibold text-primary-light">{message.agentName}</span>
           </div>
         )}
-        <div className="text-sm whitespace-pre-wrap leading-relaxed">
-          {message.content.split(/(\*\*.*?\*\*|\*.*?\*)/g).map((part, i) => {
-            if (part.startsWith('**') && part.endsWith('**')) {
-              return <strong key={i}>{part.slice(2, -2)}</strong>
-            }
-            if (part.startsWith('*') && part.endsWith('*')) {
-              return <em key={i} className="text-text-muted">{part.slice(1, -1)}</em>
-            }
-            return <span key={i}>{part}</span>
-          })}
+        <div className="text-sm">
+          {isLatest && message.role === 'ai' ? (
+            <TypewriterEffect content={message.content} speed={15} />
+          ) : (
+            <div className="whitespace-pre-wrap leading-relaxed">
+              {message.content.split(/(\*\*.*?\*\*|\*.*?\*)/g).map((part, i) => {
+                if (part.startsWith('**') && part.endsWith('**')) {
+                  return <strong key={i}>{part.slice(2, -2)}</strong>
+                }
+                if (part.startsWith('*') && part.endsWith('*')) {
+                  return <em key={i} className="text-text-muted">{part.slice(1, -1)}</em>
+                }
+                return <span key={i}>{part}</span>
+              })}
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

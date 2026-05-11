@@ -38,34 +38,46 @@ export function LandingPage() {
         {/* Floating orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
+            className="absolute w-[600px] h-[600px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle, rgba(225,29,116,0.15) 0%, transparent 70%)',
+              top: '-10%',
+              left: '-10%',
+            }}
+            animate={{ 
+              x: [0, 50, 0], 
+              y: [0, 30, 0],
+              scale: [1, 1.1, 1] 
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="absolute w-[700px] h-[700px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle, rgba(147,51,234,0.12) 0%, transparent 70%)',
+              bottom: '-10%',
+              right: '-15%',
+            }}
+            animate={{ 
+              x: [0, -40, 0], 
+              y: [0, 50, 0],
+              scale: [1.1, 1, 1.1] 
+            }}
+            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
             className="absolute w-[400px] h-[400px] rounded-full"
             style={{
-              background: 'radial-gradient(circle, rgba(225,29,116,0.12) 0%, transparent 70%)',
-              top: '10%',
-              left: '-5%',
+              background: 'radial-gradient(circle, rgba(20,184,166,0.1) 0%, transparent 70%)',
+              top: '30%',
+              right: '15%',
             }}
-            animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className="absolute w-[500px] h-[500px] rounded-full"
-            style={{
-              background: 'radial-gradient(circle, rgba(147,51,234,0.1) 0%, transparent 70%)',
-              bottom: '5%',
-              right: '-10%',
+            animate={{ 
+              x: [0, 30, 0], 
+              y: [0, -30, 0],
+              scale: [1, 1.2, 1] 
             }}
-            animate={{ x: [0, -20, 0], y: [0, 30, 0] }}
-            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className="absolute w-[300px] h-[300px] rounded-full"
-            style={{
-              background: 'radial-gradient(circle, rgba(20,184,166,0.08) 0%, transparent 70%)',
-              top: '40%',
-              right: '20%',
-            }}
-            animate={{ x: [0, 15, 0], y: [0, 15, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
           />
         </div>
 
@@ -248,6 +260,15 @@ export function LandingPage() {
                 key={i}
                 variants={fadeUp}
                 custom={i}
+                animate={{ 
+                  y: [0, -10, 0],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.5
+                }}
                 className="feature-card-item glass-card glass-card-hover py-10 px-8 flex flex-col items-start text-left [&_*]:!m-0 [&_*]:!p-0"
               >
                 <div className="flex items-center gap-4 mb-6 w-full" style={{ marginBottom: '1.5rem', gap: '1rem' }}>
@@ -409,7 +430,7 @@ export function LandingPage() {
                 className="glass-card glass-card-hover p-6 text-center"
                 style={{ flex: '1', minWidth: '200px', maxWidth: '260px' }}
               >
-                <div className="text-4xl mb-3">{stage.emoji}</div>
+                <div className="text-4xl mb-3 animate-float" style={{ animationDelay: `${i * 0.3}s` }}>{stage.emoji}</div>
                 <h3 className="font-bold mb-1">{stage.title}</h3>
                 <p className="text-text-dim text-xs">{stage.desc}</p>
               </motion.div>

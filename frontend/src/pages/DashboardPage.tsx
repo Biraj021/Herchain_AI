@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { useHealthStore } from '@/store/useHealthStore'
+import { useAuthStore } from '@/store/useAuthStore'
+import { useBlockchainStore } from '@/store/useBlockchainStore'
 import {
   RadialBarChart,
   RadialBar,
@@ -33,20 +35,37 @@ import {
   Brain,
   ChevronRight,
   Flame,
+  FileText,
 } from 'lucide-react'
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.08, duration: 0.5 },
+    scale: 1,
+    transition: { 
+      delay: i * 0.1, 
+      duration: 0.7, 
+      ease: [0.21, 1.11, 0.81, 0.99] // Overshot ease for premium feel
+    },
   }),
+}
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    }
+  }
 }
 
 export function DashboardPage() {
   const navigate = useNavigate()
   const healthData = useHealthStore((s) => s.healthData)
+  const user = useAuthStore((s) => s.user)
   const [activityBoost, setActivityBoost] = useState(0)
 
   if (!healthData) {
@@ -114,22 +133,106 @@ export function DashboardPage() {
             <h1 className="text-2xl font-bold">Health Dashboard</h1>
             <p className="text-text-dim text-sm">Your AI-generated wellness insights</p>
           </div>
-          <button
-            onClick={() => navigate('/blockchain')}
-            className="badge badge-success flex items-center gap-1"
-          >
-            <Shield size={12} /> Verify <ChevronRight size={12} />
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                const reportContent = `
+HERCHAIN AI - PERSONAL HEALTH REPORT
+Generated on: ${new Date().toLocaleString()}
+------------------------------------------
+WELLNESS SCORE: ${wellnessScore}/100
+RISK LEVEL: ${riskLevel}
+RISK SCORE: ${riskScore}%
+
+CLINICAL IDENTITY:
+- Blood Group: ${user?.blood_group || 'N/A'}
+- Age: ${user?.age || 'N/A'}
+- BMI: ${user?.bmi || 'N/A'}
+
+MAIN CONTRIBUTING FACTORS:
+${contributingFactors.map((f, i) => `${i + 1}. ${f}`).join('\n')}
+
+RISK BREAKDOWN:
+- Obesity: ${riskBreakdown.obesity}%
+- GDM: ${riskBreakdown.gdm}%
+- Type 2 Diabetes: ${riskBreakdown.t2d}%
+- Hormonal: ${riskBreakdown.hormonal}%
+- Cardiovascular: ${riskBreakdown.cardiovascular}%
+
+RECOMMENDATIONS:
+[Nutrition]
+${recommendations.nutrition.map(r => `- ${r}`).join('\n')}
+
+[Fitness]
+${recommendations.fitness.map(r => `- ${r}`).join('\n')}
+
+[Emotional]
+${recommendations.emotional.map(r => `- ${r}`).join('\n')}
+
+------------------------------------------
+*This report is verified on the Polygon Blockchain.*
+Verification ID: ${useBlockchainStore.getState().currentVerification?.reportHash || 'Pending'}
+------------------------------------------
+Disclaimer: This is an AI-generated wellness assessment and not a medical diagnosis.
+                `;
+                const blob = new Blob([reportContent], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `HerChain_Report_${new Date().getTime()}.txt`;
+                link.click();
+              }}
+              className="badge badge-primary flex items-center gap-1.5 hover:scale-105 transition-transform"
+            >
+              <FileText size={12} /> Export Report
+            </button>
+            <button
+              onClick={() => navigate('/blockchain')}
+              className="badge badge-success flex items-center gap-1 hover:scale-105 transition-transform"
+            >
+              <Shield size={12} /> Verify <ChevronRight size={12} />
+            </button>
+          </div>
         </motion.div>
 
-        {/* Top Row: Wellness Score + Risk Score */}
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        {/* Top Row: Wellness Score + Risk Score + Clinical Profile */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          {/* Clinical Profile */}
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            custom={10}
+            className="dashboard-card flex flex-col justify-center"
+          >
+            <h3 className="text-xs font-semibold text-text-muted mb-4 flex items-center gap-1.5">
+              <Shield size={12} className="text-accent" /> Clinical Identity
+            </h3>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] uppercase text-text-dim">Blood Group</span>
+                <span className="text-sm font-bold text-white">{user?.blood_group || 'O+'}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] uppercase text-text-dim">Age / BMI</span>
+                <span className="text-sm font-bold text-white">{user?.age || 25} / {user?.bmi || 22.5}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] uppercase text-text-dim">Occupation</span>
+                <span className="text-sm font-bold text-text-muted truncate max-w-[120px]">{user?.occupation || 'Professional'}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] uppercase text-text-dim">Marital Status</span>
+                <span className="text-sm font-bold text-text-muted">{user?.marital_status || 'N/A'}</span>
+              </div>
+            </div>
+          </motion.div>
           {/* Wellness Score */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            custom={0}
+            custom={11}
             className="dashboard-card flex flex-col items-center"
           >
             <h3 className="text-xs font-semibold text-text-muted mb-3 flex items-center gap-1.5">
@@ -156,6 +259,8 @@ export function DashboardPage() {
                     dataKey="value"
                     cornerRadius={10}
                     background={{ fill: 'rgba(255,255,255,0.05)' }}
+                    animationDuration={1500}
+                    animationEasing="ease-out"
                   />
                 </RadialBarChart>
               </ResponsiveContainer>
@@ -171,7 +276,7 @@ export function DashboardPage() {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            custom={1}
+            custom={12}
             className="dashboard-card flex flex-col items-center"
           >
             <h3 className="text-xs font-semibold text-text-muted mb-3 flex items-center gap-1.5">
@@ -198,6 +303,8 @@ export function DashboardPage() {
                     dataKey="value"
                     cornerRadius={10}
                     background={{ fill: 'rgba(255,255,255,0.05)' }}
+                    animationDuration={1500}
+                    animationEasing="ease-out"
                   />
                 </RadialBarChart>
               </ResponsiveContainer>
@@ -219,7 +326,7 @@ export function DashboardPage() {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            custom={2}
+            custom={13}
             className="dashboard-card"
           >
             <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
@@ -240,6 +347,8 @@ export function DashboardPage() {
                     fill="#E11D74"
                     fillOpacity={0.2}
                     strokeWidth={2}
+                    animationDuration={1500}
+                    animationEasing="ease-out"
                   />
                 </RadarChart>
               </ResponsiveContainer>
@@ -250,7 +359,7 @@ export function DashboardPage() {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            custom={3}
+            custom={14}
             className="dashboard-card"
           >
             <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
@@ -287,6 +396,8 @@ export function DashboardPage() {
                     stroke="#14B8A6"
                     strokeWidth={2}
                     fill="url(#bmiGradient)"
+                    animationDuration={1500}
+                    animationEasing="ease-out"
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -300,7 +411,7 @@ export function DashboardPage() {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            custom={4}
+            custom={14}
             className="dashboard-card"
           >
             <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
@@ -318,7 +429,7 @@ export function DashboardPage() {
                       fontSize: '12px',
                     }}
                   />
-                  <Bar dataKey="hours" fill="#9333EA" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="hours" fill="#9333EA" radius={[6, 6, 0, 0]} animationDuration={1500} animationEasing="ease-out" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -328,7 +439,7 @@ export function DashboardPage() {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            custom={5}
+            custom={16}
             className="dashboard-card"
           >
             <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
@@ -346,7 +457,7 @@ export function DashboardPage() {
                       fontSize: '12px',
                     }}
                   />
-                  <Bar dataKey="steps" fill="#14B8A6" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="steps" fill="#14B8A6" radius={[6, 6, 0, 0]} animationDuration={1500} animationEasing="ease-out" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -359,7 +470,7 @@ export function DashboardPage() {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            custom={6}
+            custom={17}
             className="dashboard-card"
           >
             <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
@@ -382,7 +493,7 @@ export function DashboardPage() {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            custom={7}
+            custom={9}
             className="dashboard-card border-primary/20"
           >
             <div className="flex items-center gap-2 mb-1">
@@ -489,16 +600,24 @@ export function DashboardPage() {
           animate="visible"
           variants={fadeUp}
           custom={9}
-          className="dashboard-card gradient-primary text-center"
+          className="dashboard-card gradient-primary text-center relative overflow-hidden group"
         >
-          <Shield size={28} className="text-white/80 mx-auto mb-3" />
-          <h3 className="font-bold text-white mb-1">Verify Your Report</h3>
-          <p className="text-white/70 text-xs mb-4">
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.1, 1],
+              opacity: [0.3, 0.5, 0.3]
+            }}
+            transition={{ duration: 5, repeat: Infinity }}
+            className="absolute -top-10 -right-10 w-40 h-40 bg-white rounded-full blur-3xl pointer-events-none"
+          />
+          <Shield size={28} className="text-white/80 mx-auto mb-3 relative z-10 group-hover:scale-110 transition-transform" />
+          <h3 className="font-bold text-white mb-1 relative z-10">Verify Your Report</h3>
+          <p className="text-white/70 text-xs mb-4 relative z-10">
             Store your health report hash on the Polygon blockchain
           </p>
           <button
             onClick={() => navigate('/blockchain')}
-            className="bg-white/20 hover:bg-white/30 text-white px-6 py-2.5 rounded-xl font-semibold text-sm transition-all"
+            className="bg-white/20 hover:bg-white/30 text-white px-6 py-2.5 rounded-xl font-semibold text-sm transition-all relative z-10 backdrop-blur-sm"
           >
             <span className="flex items-center justify-center gap-2">
               Verify on Blockchain <ArrowRight size={16} />
