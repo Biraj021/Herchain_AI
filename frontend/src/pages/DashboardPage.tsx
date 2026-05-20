@@ -473,15 +473,15 @@ Disclaimer: This is an AI-generated wellness assessment and not a medical diagno
             custom={17}
             className="dashboard-card"
           >
-            <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
-              <Sparkles size={16} className="text-primary-light" />
+            <h3 className="text-base font-bold flex items-center gap-3 mb-6 text-white">
+              <Sparkles size={18} className="text-primary-light" />
               Explainable AI — Key Factors
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {contributingFactors.map((factor, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-xs font-bold text-primary">{i + 1}</span>
+                <div key={i} className="flex items-center gap-4">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-sm font-bold text-primary-light">{i + 1}</span>
                   </div>
                   <p className="text-sm text-text-muted">{factor}</p>
                 </div>

@@ -269,35 +269,37 @@ export function LandingPage() {
                   ease: "easeInOut",
                   delay: i * 0.5
                 }}
-                className="feature-card-item glass-card glass-card-hover py-10 px-8 flex flex-col items-start text-left [&_*]:!m-0 [&_*]:!p-0"
+                className="feature-card-item glass-card glass-card-hover h-full min-h-[350px] py-10 px-8 flex flex-col items-start text-left justify-between"
               >
-                <div className="flex items-center gap-4 mb-6 w-full" style={{ marginBottom: '1.5rem', gap: '1rem' }}>
-                  <div
-                    className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                      feature.color === 'primary'
-                        ? 'bg-primary/15 text-primary-light'
-                        : feature.color === 'secondary'
-                        ? 'bg-secondary/15 text-secondary-light'
-                        : 'bg-accent/15 text-accent'
-                    }`}
-                  >
-                    <feature.icon size={24} />
+                <div>
+                  <div className="flex flex-col items-start gap-4 mb-6 w-full">
+                    <div
+                      className={`w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 ${
+                        feature.color === 'primary'
+                          ? 'bg-primary/15 text-primary-light'
+                          : feature.color === 'secondary'
+                          ? 'bg-secondary/15 text-secondary-light'
+                          : 'bg-accent/15 text-accent'
+                      }`}
+                    >
+                      <feature.icon size={28} />
+                    </div>
+                    <h3 className="text-2xl font-bold tracking-tight">{feature.title}</h3>
                   </div>
-                  <h3 className="text-xl font-bold tracking-tight">{feature.title}</h3>
+                  
+                  <p className="text-text-muted text-base mb-6 leading-relaxed">
+                    {feature.desc}
+                  </p>
                 </div>
                 
-                <p className="text-text-muted text-sm mb-8 leading-relaxed" style={{ marginBottom: '2rem' }}>
-                  {feature.desc}
-                </p>
-                
-                <div className="w-full space-y-3" style={{ gap: '0.75rem', display: 'flex', flexDirection: 'column' }}>
+                <div className="w-full space-y-3 mt-auto">
                   {feature.features.map((f, j) => (
-                    <div key={j} className="flex items-start gap-3 group">
-                      <div className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                    <div key={j} className="flex items-start gap-4 group">
+                      <div className={`mt-2 w-2 h-2 rounded-full flex-shrink-0 ${
                         feature.color === 'primary' ? 'bg-primary-light' : 
                         feature.color === 'secondary' ? 'bg-secondary-light' : 'bg-accent'
                       }`} />
-                      <span className="text-sm text-text-dim group-hover:text-text-muted transition-colors">
+                      <span className="text-base text-text-dim group-hover:text-text-muted transition-colors">
                         {f}
                       </span>
                     </div>
@@ -309,86 +311,119 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* === HOW IT WORKS === */}
-      <section className="py-24 px-6 bg-background-light relative">
-        <div className="max-w-4xl mx-auto" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-100px' }}
-            variants={stagger}
-            className="text-center mb-16"
-            style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-          >
-            <motion.span variants={fadeUp} custom={0} className="badge badge-primary mb-4">
-              <Sparkles size={12} /> How It Works
-            </motion.span>
-            <motion.h2 variants={fadeUp} custom={1} className="text-3xl md:text-5xl font-bold mb-4" style={{ textAlign: 'center' }}>
-              Your Wellness <span className="gradient-primary-text">Journey</span>
-            </motion.h2>
-          </motion.div>
+      {/* === HOW IT WORKS (FUTURISTIC TIMELINE) === */}
+      <section id="how-it-works" className="py-32 relative overflow-hidden bg-[#05050A]">
+        {/* Ambient Background Glows */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
+        </div>
 
+        <div className="max-w-7xl mx-auto px-6 relative">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={stagger}
-            className="max-w-3xl mx-auto space-y-6"
-            style={{ transform: 'translateX(40px)' }}
+            className="text-center mb-24"
           >
-            {[
-              {
-                step: '01',
-                title: 'Share Your Story',
-                desc: 'Chat naturally with our AI intake agent about your symptoms, lifestyle, and health goals.',
-                icon: '💬',
-              },
-              {
-                step: '02',
-                title: 'AI Agents Collaborate',
-                desc: '7 specialized agents work together — analyzing risks, creating nutrition plans, and generating insights.',
-                icon: '🤖',
-              },
-              {
-                step: '03',
-                title: 'Get Predictions',
-                desc: 'ML models predict your health risks with explainable factors and confidence scores.',
-                icon: '📊',
-              },
-              {
-                step: '04',
-                title: 'Simulate Your Future',
-                desc: 'See how lifestyle changes today can reduce your future health risks with interactive simulations.',
-                icon: '🔮',
-              },
-              {
-                step: '05',
-                title: 'Blockchain Verified',
-                desc: 'Your report is hashed and stored on Polygon — creating an immutable, tamper-proof health record.',
-                icon: '🛡️',
-              },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                custom={i}
-                className="glass-card p-6 md:p-8 flex flex-col items-center text-center gap-6"
-              >
-                <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-3xl">
-                  {item.icon}
-                </div>
-                <div>
-                  <div className="flex items-center justify-center gap-3 mb-1">
-                    <span className="text-xs font-bold text-primary tracking-widest text-center">
-                      STEP {item.step}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-bold mb-1">{item.title}</h3>
-                  <p className="text-text-muted text-sm">{item.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+            <motion.span variants={fadeUp} custom={0} className="badge badge-primary mb-4 px-6 py-2">
+              <Sparkles size={14} className="animate-pulse" /> AI Orchestration Pipeline
+            </motion.span>
+            <motion.h2 variants={fadeUp} custom={1} className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
+              How <span className="gradient-primary-text">HerChain AI</span> Works
+            </motion.h2>
+            <motion.p variants={fadeUp} custom={2} className="text-text-muted text-xl max-w-2xl mx-auto leading-relaxed">
+              Your health journey, powered by intelligent agents in a secured neural ecosystem.
+            </motion.p>
           </motion.div>
+
+          <div className="relative">
+            {/* The Central Glowing Line (Desktop) */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-secondary/50 to-accent/50 hidden md:block">
+              <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-primary via-secondary to-accent blur-[2px] opacity-50" />
+            </div>
+
+            <div className="space-y-24 md:space-y-0">
+              {[
+                {
+                  title: 'Share Your Story',
+                  desc: 'Chat naturally with our AI intake agent about your symptoms, lifestyle, and health goals.',
+                  icon: Bot,
+                  step: '01',
+                  color: 'primary',
+                  align: 'left'
+                },
+                {
+                  title: 'AI Agents Collaborate',
+                  desc: 'Specialized AI agents analyze risks, nutrition, emotional wellness, and health patterns.',
+                  icon: Sparkles,
+                  step: '02',
+                  color: 'secondary',
+                  align: 'right'
+                },
+                {
+                  title: 'Get Predictions',
+                  desc: 'ML models predict future health risks with explainable confidence scores.',
+                  icon: LineChart,
+                  step: '03',
+                  color: 'accent',
+                  align: 'left'
+                },
+                {
+                  title: 'Secure Blockchain Verification',
+                  desc: 'Your wellness reports are securely verified using blockchain-based trust infrastructure.',
+                  icon: Shield,
+                  step: '04',
+                  color: 'primary',
+                  align: 'right'
+                }
+              ].map((item, i) => (
+                <div key={i} className={`relative flex flex-col md:flex-row items-center ${item.align === 'right' ? 'md:flex-row-reverse' : ''} md:h-[300px]`}>
+                  
+                  {/* Content Card */}
+                  <div className="w-full md:w-1/2 px-4 md:px-12">
+                    <motion.div
+                      initial={{ opacity: 0, x: item.align === 'left' ? -50 : 50 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: '-100px' }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
+                      className="glass-card p-8 md:p-10 relative group hover:border-primary/40 transition-all duration-500"
+                    >
+                      {/* Floating Gradient Background */}
+                      <div className={`absolute -inset-1 bg-gradient-to-r ${
+                        item.color === 'primary' ? 'from-primary/20 to-secondary/20' : 
+                        item.color === 'secondary' ? 'from-secondary/20 to-accent/20' : 
+                        'from-accent/20 to-primary/20'
+                      } rounded-[22px] opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500`} />
+                      
+                      <div className="relative flex flex-col items-start gap-4">
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center bg-${item.color}/10 text-${item.color}-light border border-${item.color}/20 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
+                          <item.icon size={28} />
+                        </div>
+                        <div>
+                          <span className={`text-xs font-black tracking-[0.3em] uppercase text-${item.color}-light mb-2 block`}>
+                            PHASE {item.step}
+                          </span>
+                          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">{item.title}</h3>
+                          <p className="text-text-muted text-lg leading-relaxed">{item.desc}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </div>
+
+                  {/* Central Node */}
+                  <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#05050A] border-2 border-primary z-10 hidden md:flex items-center justify-center">
+                    <div className={`w-1.5 h-1.5 rounded-full bg-${item.color} animate-ping`} />
+                    <div className={`absolute inset-0 rounded-full bg-${item.color} blur-md opacity-50`} />
+                  </div>
+
+                  {/* Empty space for the other side */}
+                  <div className="hidden md:block md:w-1/2" />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

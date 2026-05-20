@@ -27,14 +27,11 @@
 
 /* ===== GLOBAL RESETS & BASE ===== */
 * {
-  margin: 6px;
-  padding: 3px;
   box-sizing: border-box;
 }
 
 /* 
-  NOTE: Avoid using '*' for margin/padding as it breaks layout grids and hit areas.
-  Apply spacing to specific containers instead.
+  NOTE: Spacing is now handled by specific containers to avoid breaking layouts.
 */
 
 html {
@@ -50,6 +47,8 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.6;
+  margin: 0;
+  padding: 0;
 }
 
 #root {
@@ -68,6 +67,8 @@ h6 {
   font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.2;
+  margin: 0;
+  margin-bottom: 1rch;
 }
 
 a {
@@ -196,17 +197,14 @@ select {
 }
 
 .features-cards-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 32px;
-  flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .feature-card-item {
-  flex: 1;
-  min-width: 300px;
-  max-width: 420px;
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
