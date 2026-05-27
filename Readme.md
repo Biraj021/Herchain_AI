@@ -96,4 +96,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-<p align="center">Built with 💖 for women's wellness by <a href="https://github.com/Biraj021">Biraj</a></p>
+<p align="center">Built with 💖 for women's wellness 
