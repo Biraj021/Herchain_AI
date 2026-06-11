@@ -167,4 +167,4 @@ We prioritize user data protection.
 3. **Clinical Guardrails**: System prompt restrictions ensure that agents will never provide hazardous diagnoses and will always suggest professional consultation when high-risk flags are triggered.
 
 ---
-Built with 💖 for women's wellness by the HerChain AI Team.
+Built for women's wellness by the HerChain AI Team.
