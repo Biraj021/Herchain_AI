@@ -11,23 +11,9 @@
 
 ## 🗺️ System Architecture
 
-```mermaid
-graph TD
-    User([User]) -->|Interacts| FE[React + Vite Frontend]
-    FE -->|API Requests| BE[FastAPI Backend]
-    
-    subgraph BE_Modules [Backend Core]
-        AG[Multi-Agent System]
-        ML[ML Prediction Engine]
-        BC[Blockchain Registry]
-    end
-    
-    AG -->|Orchestrated Response| Gemini[Gemini 1.5 Flash API]
-    ML -->|Calculates Risk Scores| XAI[Explainable AI - Contributing Factors]
-    BC -->|Stores Report Hash| Polygon[Polygon Amoy Testnet Simulated Logs]
-    
-    FE -.->|Verifies Report Authenticity| BC
-```
+<p align="center">
+  <img src="./System_Architecture.png" alt="HerChain AI System Architecture" width="100%">
+</p>
 
 ---
 
