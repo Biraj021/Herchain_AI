@@ -1,0 +1,16 @@
+{
+  "name": "HerChain AI",
+  "short_name": "HerChain",
+  "description": "AI-Powered Women's Healthcare Ecosystem",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0F",
+  "theme_color": "#E11D74",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
